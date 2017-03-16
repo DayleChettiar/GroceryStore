@@ -1,0 +1,5 @@
+001|name1|description1|cost1|optNote1
+002|name2|description2|cost2|optNote2
+003|name3|description3|cost3|optNote3
+004|name4|description4|cost4|optNote4
+005|name5|description5|cost5|optNote5

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="cartItemApp">
+<head>
+  <title>Shopping Cart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="images/contacts-icon.png" rel="shortcut icon" />
+  <link href="styles/bootstrap-3.1.1.min.css" rel="stylesheet" />
+  <link href="styles/app.css" rel="stylesheet" />
+</head>
+<body ng-controller="CartItemController">
+  <div class="navbar navbar-default navbar-fixed-top">
+    <h4 class="col-xs-12">Shopping Cart</h4>
+    <div class="col-xs-12 actions">
+       <button class="btn btn-default btn-sm edit-mode pull-right" ng-click="switchToMode('/edit')" ng-show="!editMode">Edit Mode</button>
+       <button class="btn btn-default btn-sm contact-add" ng-click="newCartItem()" ng-show="editMode">Add</button>
+       <button class="btn btn-danger btn-sm contacts-delete" ng-click="deleteCartItems()" ng-show="editMode" ng-disabled="!selectedIds.length">Delete</button>
+       <button class="btn btn-default btn-sm view-mode pull-right" ng-click="switchToMode('/view')" ng-show="editMode">View Mode</button>
+    </div>
+    <form class="col-xs-12" ng-submit="searchCartItems(0)">
+      <input id="filter" type="text" ng-model="keyword" placeholder="input your filter here (ENTER for search)" />
+    </form>
+  </div>
+  <div class="alert alert-danger navbar-fixed-top" ng-show="$root.errorMessage">
+    {{$root.errorMessage}}<button type="button" class="close" ng-click="errorMessage=''">&times;</button>
+  </div>
+  <div class="cards col-xs-12">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card-container" ng-repeat="cartItem in cartItems track by $index" ng-show="([cartItem]|filter:keyword).length">
+      <form class="card" ng-submit="saveCartItem(cartItem)">
+        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+        <table class="table">
+          <tr>
+            <th colspan="2" class="contact-name" ng-class="{'has-error': cartItem.errors.name}">
+              <strong>
+                  <input required ng-model="cartItem.name" placeholder="Name" title="{{cartItem.errors.name}}" ng-readonly="!editMode" />
+              </strong>
+              <input type="checkbox" ng-model="cartItem.selected" ng-show="editMode" ng-checked="cartItem.selected" />
+            </th>
+          </tr>
+          <tr>
+            <td class="col-xs-1" rowspan="4">
+              <img id="img{{cartItem.id}}" alt="contact-photo" ng-src="rest/photos/{{cartItem.id}}" ng-click="selectPhoto(cartItem.id)" class="img-thumbnail" width="80" />
+            </td>
+          </tr>
+          <tr ng-class="{'has-error': cartItem.errors.description}">
+            <td>
+              <input required ng-model="cartItem.description" placeholder="Description" title="{{cartItem.errors.description}}" ng-readonly="!editMode" />
+            </td>
+          </tr>
+          <tr ng-class="{'has-error': cartItem.errors.cost}">
+            <td>
+              $<input ng-model="cartItem.cost" placeholder="Cost" title="{{cartItem.errors.cost}}" ng-readonly="!editMode" />
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          
+        </table>
+      </form>
+      <input type="file" id="file{{cartItem.id}}" onchange="angular.element(this).scope().uploadPhoto(this.id)" accept="image/*" style="display: none;" />
+    </div>
+    <button class="col-xs-12 btn btn-default btn-sm load-more" ng-show="hasMoreCartItems" ng-click="searchCartItems(page + 1)">More...</button>
+  </div>
+  <div class="loading" ng-show="isLoading"><span>Loading data...</span></div>
+  
+  <script src="scripts/libs/angular-1.2.15.min.js"></script>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/CartItemController.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+001|Carrots|Belong to vegetables|32.09|You should buy them
+002|Bic Pen|Stationary Item|2.00|You should buy them
+003|Bananas|Fruit Item|1.00|You should buy them
+004|Tomatoes|Canned tomatoes|5.00|You may need them
+005|Chicken|Meat Item|7.99|You should buy them
+006|Lindt Chocolates|Delicious chocolate|4.00|You should buy them too
